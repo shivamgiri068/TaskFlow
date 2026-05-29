@@ -1,33 +1,25 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const uri = (process.env.MONGODB_URI || process.env.MONGO_URI || "").trim();
 
   if (!uri) {
-    console.error("FATAL: MONGODB_URI environment variable is not set.");
-    process.exit(1);
+    console.error("MONGODB_URI is not set. Add it in Render → Environment.");
+    return;
   }
 
-  const maxRetries = 5;
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+  const connectOnce = async () => {
+    await mongoose.connect(uri, { serverSelectionTimeoutMS: 15000 });
+    console.log("MongoDB Connected");
+  };
+
+  while (true) {
     try {
-      await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 10000
-      });
-      console.log("MongoDB Connected");
+      await connectOnce();
       return;
     } catch (err) {
-      console.error(
-        `MongoDB connection attempt ${attempt}/${maxRetries} failed:`,
-        err.message
-      );
-      if (attempt === maxRetries) {
-        console.error(
-          "Tip: In MongoDB Atlas → Network Access → allow 0.0.0.0/0 (anywhere)."
-        );
-        process.exit(1);
-      }
-      await new Promise((r) => setTimeout(r, 5000));
+      console.error("MongoDB connection failed, retrying in 10s:", err.message);
+      await new Promise((r) => setTimeout(r, 10000));
     }
   }
 };

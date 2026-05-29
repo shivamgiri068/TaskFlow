@@ -20,27 +20,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  const mongoose = require("mongoose");
+  res.json({
+    status: "ok",
+    database:
+      mongoose.connection.readyState === 1 ? "connected" : "connecting"
+  });
 });
 
 const PORT = process.env.PORT || 5000;
 
-async function start() {
-  if (!process.env.MONGODB_URI && !process.env.MONGO_URI) {
-    console.error("FATAL: Set MONGODB_URI in Render → Environment.");
-    process.exit(1);
-  }
-  if (!process.env.JWT_SECRET) {
-    console.error("FATAL: Set JWT_SECRET in Render → Environment.");
-    process.exit(1);
-  }
-
-  await connectDB();
-
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (!process.env.JWT_SECRET) {
+  console.error("FATAL: JWT_SECRET is not set. Add it in Render → Environment.");
+  process.exit(1);
 }
 
-start().catch((err) => {
-  console.error("Startup failed:", err);
+if (!process.env.MONGODB_URI && !process.env.MONGO_URI) {
+  console.error("FATAL: MONGODB_URI is not set. Add it in Render → Environment.");
   process.exit(1);
+}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
 });

@@ -1,0 +1,6 @@
+node_modules/
+.env
+.env.local
+DEPLOY_SECRETS.txt
+.DS_Store
+*.log

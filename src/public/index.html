@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Securely access your TaskFlow dashboard. Manage tasks, update priorities, and track your work progress.">
+  <title>Login | TaskFlow</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">✅ TaskFlow</div>
+      
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab active" onclick="switchTab('login')">Login</button>
+        <button id="tab-register" class="auth-tab" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- Messages -->
+      <div id="error-message" class="message-box message-error"></div>
+      <div id="success-message" class="message-box message-success"></div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email" class="form-label">Email Address</label>
+          <input type="email" id="login-email" class="form-input" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password" class="form-label">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn-submit">
+          <span>Sign In</span>
+        </button>
+        
+        <div class="auth-toggle-link">
+          Don't have an account? <a href="#" onclick="switchTab('register'); return false;">Register</a>
+        </div>
+      </form>
+
+      <!-- Register Form (Hidden by default) -->
+      <form id="register-form" onsubmit="handleRegister(event)" style="display: none;">
+        <div class="form-group">
+          <label for="register-name" class="form-label">Your Name</label>
+          <input type="text" id="register-name" class="form-input" placeholder="John Doe" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="register-email" class="form-label">Email Address</label>
+          <input type="email" id="register-email" class="form-input" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+        
+        <div class="form-group">
+          <label for="register-password" class="form-label">Password</label>
+          <input type="password" id="register-password" class="form-input" placeholder="••••••••" required autocomplete="new-password">
+        </div>
+
+        <button type="submit" id="btn-register-submit" class="btn-submit">
+          <span>Create Account</span>
+        </button>
+        
+        <div class="auth-toggle-link">
+          Already have an account? <a href="#" onclick="switchTab('login'); return false;">Login</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>

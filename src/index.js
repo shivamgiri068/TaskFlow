@@ -6,38 +6,39 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-app.use(cors({ origin: "*" }));
+// CORS must allow ALL origins with credentials
+app.use(cors({ origin: "*", methods: ["GET","POST","PUT","DELETE"] }));
 app.use(express.json());
 
+// Auth & Task Routes
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/projects", require("./routes/projectRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files
+app.use(express.static("src/public"));
 
+// Root route sends index.html
 app.get("/", (req, res) => {
-  res.send("TaskFlow API is running");
+  res.sendFile("index.html", { root: "src/public" });
 });
 
+// Health check route
 app.get("/health", (req, res) => {
   const mongoose = require("mongoose");
   res.json({
     status: "ok",
-    database:
-      mongoose.connection.readyState === 1 ? "connected" : "connecting"
+    database: mongoose.connection.readyState === 1 ? "connected" : "connecting"
   });
 });
 
 const PORT = process.env.PORT || 5000;
 
 if (!process.env.JWT_SECRET) {
-  console.error("FATAL: JWT_SECRET is not set. Add it in Render → Environment.");
-  process.exit(1);
+  console.warn("WARNING: JWT_SECRET is not set. Add it in environment variables.");
 }
 
-if (!process.env.MONGODB_URI && !process.env.MONGO_URI) {
-  console.error("FATAL: MONGODB_URI is not set. Add it in Render → Environment.");
-  process.exit(1);
+if (!process.env.MONGODB_URI) {
+  console.warn("WARNING: MONGODB_URI is not set. Add it in environment variables.");
 }
 
 app.listen(PORT, () => {

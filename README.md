@@ -1,179 +1,183 @@
-# TaskFlow
+# 📝 TaskFlow - Premium Task Management System
 
-Full-stack task management application with user authentication, project management, and task CRUD operations. Built with Node.js, Express, MongoDB, and JWT.
+TaskFlow is a state-of-the-art, production-ready, full-stack task management application. Designed for students, developers, and professionals to streamline workflows, organize projects, and keep track of deadlines with ease. It features a stunning glassmorphic UI, robust security configurations, real-time statistics, search filters, and a clean mobile-responsive layout.
 
-## Tech Stack
+---
 
-- **Backend:** Node.js, Express
-- **Database:** MongoDB (Mongoose)
-- **Auth:** JWT, bcryptjs
-- **Deployment:** Render.com, MongoDB Atlas
+### Tech Badges
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![JWT Auth](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)](https://jwt.io/)
 
-## Local Setup
+---
 
-1. Clone the repository:
+## 🔗 Live Demo
+🚀 Experience the live deployment here: **[Live Demo](your-render-url-here)**
 
-```bash
-git clone https://github.com/shivamgiri068/TaskFlow.git
-cd TaskFlow
+---
+
+## 📸 Screenshots
+### 🔐 Authentication Portal (Login / Register)
+*(Placeholder: Add your login screenshot here)*
+```
+┌──────────────────────────────────────────┐
+│                ✅ TaskFlow               │
+│  [ Login ] [ Register ]                  │
+│  Email: _______________________          │
+│  Password: ____________________          │
+│  [        Sign In        ]               │
+└──────────────────────────────────────────┘
 ```
 
-2. Install dependencies:
-
-```bash
-npm install
+### 📊 Premium Analytics & Workspaces (Dashboard)
+*(Placeholder: Add your dashboard screenshot here)*
 ```
-
-3. Create a `.env` file from the example:
-
-```bash
-cp .env.example .env
-```
-
-4. Fill in your environment variables in `.env`:
-
-```
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-PORT=5000
-```
-
-5. Start the server:
-
-```bash
-npm start
-```
-
-For development with auto-reload:
-
-```bash
-npm run dev
-```
-
-The API runs at `http://localhost:5000`.
-
-## API Endpoints
-
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/auth/signup` | Register a user | No |
-| POST | `/api/auth/login` | Login and get JWT | No |
-| GET | `/api/tasks` | List all tasks | Yes |
-| POST | `/api/tasks` | Create a task | Yes |
-| PUT | `/api/tasks/:id` | Update a task | Yes |
-| DELETE | `/api/tasks/:id` | Delete a task | Yes |
-| GET | `/api/projects` | List projects | Yes |
-| POST | `/api/projects` | Create project (admin) | Yes |
-| POST | `/api/projects/add-member` | Add member (admin) | Yes |
-
-Send the JWT in the `Authorization` header:
-
-```
-Authorization: Bearer <your_token>
+┌──────────────────────────────────────────┐
+│ ✅ TaskFlow              Hello, Shivam!  │
+├──────────────────────────────────────────┤
+│ Total: 12 | Todo: 4 | Progress: 3 | Done:5│
+├──────────────────────────────────────────┤
+│ [Search...] [Status] [Priority]  [+ Add] │
+├──────────────────────────────────────────┤
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
+│ │ Task A   │ │ Task B   │ │ Task C   │   │
+│ │ Priority │ │ Priority │ │ Priority │   │
+│ └──────────┘ └──────────┘ └──────────┘   │
+└──────────────────────────────────────────┘
 ```
 
 ---
 
-## Deploy to Render.com (Free)
-
-### Prerequisites
-
-- GitHub account with this repo pushed
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) free cluster
-- [Render](https://render.com) account
-
-### Step 1: MongoDB Atlas
-
-1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) and create a free account.
-2. Create a **free M0 cluster** (choose a cloud provider and region close to you).
-3. Under **Database Access**, create a database user with a username and password.
-4. Under **Network Access**, click **Add IP Address** and choose **Allow Access from Anywhere** (`0.0.0.0/0`) so Render can connect.
-5. Click **Connect** on your cluster → **Drivers** → copy the connection string.
-6. Replace `<password>` with your database user password and set the database name (e.g. `taskflow`):
-
-```
-mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/taskflow?retryWrites=true&w=majority
-```
-
-### Step 2: Push Code to GitHub
-
-```bash
-git add .
-git commit -m "Prepare TaskFlow for Render deployment"
-git push origin main
-```
-
-### Step 3: Create a Web Service on Render
-
-1. Log in to [Render Dashboard](https://dashboard.render.com).
-2. Click **New +** → **Web Service**.
-3. Connect your GitHub account and select the **TaskFlow** repository.
-4. Configure the service:
-
-| Setting | Value |
-|---------|-------|
-| **Name** | `taskflow` (or any name) |
-| **Region** | Choose closest to you |
-| **Branch** | `main` |
-| **Runtime** | Node |
-| **Build Command** | `npm install` |
-| **Start Command** | `node src/index.js` |
-
-5. Select the **Free** instance type.
-
-### Step 4: Environment Variables on Render
-
-In your Render service, go to **Environment** and add:
-
-| Key | Value |
-|-----|-------|
-| `MONGODB_URI` | Your Atlas connection string |
-| `JWT_SECRET` | A long random secret (e.g. generate with `openssl rand -hex 32`) |
-| `PORT` | `10000` (Render sets `PORT` automatically; this is optional) |
-
-> **Note:** Render injects `PORT` automatically. Your app uses `process.env.PORT || 5000`, so no manual PORT is required.
-
-6. Click **Create Web Service** and wait for the deploy to finish.
-
-### Step 5: Verify Deployment
-
-1. Open your Render URL (e.g. `https://taskflow.onrender.com`).
-2. You should see: `TaskFlow API is running`.
-3. Test signup/login with Postman or your frontend, pointing API calls to your Render URL.
-
-### Free Tier Notes
-
-- Render free services **spin down after 15 minutes** of inactivity; the first request may take 30–60 seconds.
-- MongoDB Atlas M0 cluster is free forever with 512 MB storage.
-- Keep `JWT_SECRET` and `MONGODB_URI` private; never commit them to GitHub.
+## ✨ Features
+- 🛡️ **JWT Security Middleware**: Secure endpoint access utilizing encrypted tokens transmitted via `Bearer` authorization headers.
+- 🗂️ **Interactive Filtering & Search**: Filter tasks instantly on the dashboard by title, status (`todo`, `in-progress`, `done`), and priority level (`low`, `medium`, `high`).
+- 📊 **Real-time Statistics**: Visual stats bar showing metrics (Total, Todo, In-Progress, Done) updating immediately upon task CRUD operations.
+- 💫 **Premium Aesthetics**: Features a modern glassmorphic look, vivid background gradients (`#0f0c29` → `#302b63` → `#24243e`), rich hover feedback, and fluid enter/exit keyframe animations.
+- 🌐 **Clean API Integration**: Fully decoupled architecture communicating via standard JSON routes.
+- 📱 **Fully Responsive Layout**: Custom stylesheet matching layout properties on mobile, tablet, and desktop display dimensions.
 
 ---
 
-## Project Structure
+## 🛠️ Tech Stack
+
+| Component | Technology | Description |
+|---|---|---|
+| **Frontend** | HTML5, CSS3, Vanilla JS | Pure custom styles, transitions, responsive CSS Grid layout, and Fetch API |
+| **Backend** | Node.js, Express.js | Core web framework, API routing, static file host, and middleware configurations |
+| **Database** | MongoDB | NoSQL Document database for persistence (Object Modeling via Mongoose) |
+| **Security** | JWT (jsonwebtoken), bcryptjs | Cryptographic password hashing and authorization token claims |
+| **Environment** | dotenv, nodemon | Configurations and hot-reload local setup utils |
+
+---
+
+## 📂 Folder Structure
 
 ```
 TaskFlow/
 ├── Procfile
 ├── package.json
+├── .gitignore
 ├── .env.example
 ├── README.md
 └── src/
     ├── index.js
     ├── config/
     │   └── db.js
+    ├── middleware/
+    │   ├── authMiddleware.js
+    │   └── roleMiddleware.js
     ├── models/
     │   ├── User.js
     │   ├── Task.js
     │   └── Project.js
-    ├── routes/
-    │   ├── authRoutes.js
-    │   ├── taskRoutes.js
-    │   └── projectRoutes.js
-    └── middleware/
-        ├── authMiddleware.js
-        └── roleMiddleware.js
+    └── public/
+        ├── index.html
+        ├── dashboard.html
+        ├── style.css
+        ├── auth.js
+        └── dashboard.js
 ```
 
-## Author
+---
 
-[Shivam Giri](https://github.com/shivamgiri068)
+## 🛣️ API Documentation
+
+All routes are prefixed with `/api`. Protected routes require the request header: `Authorization: Bearer <token>`.
+
+### Authentication Routes
+
+| Endpoint | Method | Payload | Description | Auth |
+|---|---|---|---|---|
+| `/auth/register` | `POST` | `{ name?, email, password }` | Registers user. Password is encrypted. | `None` |
+| `/auth/login` | `POST` | `{ email, password }` | Verifies user credentials. Returns JWT token and user info. | `None` |
+
+### Task Routes
+
+| Endpoint | Method | Payload | Description | Auth |
+|---|---|---|---|---|
+| `/tasks` | `GET` | `None` | Retrieves all tasks owned by the authenticated user. | `JWT` |
+| `/tasks` | `POST` | `{ title, description?, status?, priority?, dueDate? }` | Creates a task and attaches to user ID. | `JWT` |
+| `/tasks/:id` | `PUT` | `{ title?, description?, status?, priority?, dueDate? }` | Updates task fields. Validates ownership first. | `JWT` |
+| `/tasks/:id` | `DELETE` | `None` | Deletes the task. Validates ownership first. | `JWT` |
+
+---
+
+## 🚀 Local Setup Instructions
+
+Follow these commands to configure and host the application locally:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/shivamgiri068/TaskFlow.git
+cd TaskFlow
+```
+
+### 2. Install Dependencies
+Install all backend packages and development utilities:
+```bash
+npm install
+```
+
+### 3. Setup Environment variables
+Create a `.env` file from the example template:
+```bash
+cp .env.example .env
+```
+Open `.env` and fill in your details:
+```env
+MONGODB_URI=your_mongodb_atlas_uri_here
+JWT_SECRET=your_super_secret_key_here
+PORT=5000
+```
+
+### 4. Launch Application
+Run the development environment using `nodemon` for auto-restart:
+```bash
+npm run dev
+```
+For production execution:
+```bash
+npm start
+```
+The server will boot on `http://localhost:5000`. Open your browser to explore the dashboard.
+
+---
+
+## 🌐 Production Deployment (Render.com)
+
+1. Connect your Github repository to [Render](https://render.com).
+2. Create a new **Web Service**.
+3. Set the following details:
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node src/index.js`
+4. Add the environment variables:
+   - `MONGODB_URI` = `<your-atlas-connection-string>`
+   - `JWT_SECRET` = `<your-jwt-signing-secret>`
+5. Click deploy. Render reads the `Procfile` and launches the application automatically!
+
+---
+
+## 👤 Author
+Developed and maintained by **[Shivam Giri](https://github.com/shivamgiri068)**.

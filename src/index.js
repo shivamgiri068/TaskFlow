@@ -10,16 +10,27 @@ const app = express();
 app.use(cors({ origin: "*", methods: ["GET","POST","PUT","DELETE"] }));
 app.use(express.json());
 
+// Database connection check middleware for API routes
+app.use("/api", (req, res, next) => {
+  const mongoose = require("mongoose");
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      msg: "Database is not connected. If this is running on Render, ensure you set MONGODB_URI in the environment variables and whitelisted all IP addresses (0.0.0.0/0) in your MongoDB Atlas Network Access settings."
+    });
+  }
+  next();
+});
+
 // Auth & Task Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/tasks", require("./routes/taskRoutes"));
 
 // Serve static files
-app.use(express.static("src/public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Root route sends index.html
 app.get("/", (req, res) => {
-  res.sendFile("index.html", { root: "src/public" });
+  res.sendFile("index.html", { root: path.join(__dirname, "public") });
 });
 
 // Health check route
